@@ -77,20 +77,22 @@ def buscar_todas_entre_palavras(texto, palavra_inicio, palavra_fim):
     return resultados
 
 # Uso
-caminho = r"C:/Users/MATEUS/Desktop/ITI/testando_coisas/livro1.pdf"
-livro_string = pdf_para_string(caminho, pular_paginas=23)
+caminho = r"C:\Users\Mateus\Desktop\Faculdade\ITI\ITI_tratamento_dados\testando_coisas\livro1.pdf"
+caminho2 = r"C:\Users\Mateus\Desktop\Faculdade\ITI\ITI_tratamento_dados\testando_coisas\livro2.pdf"
+
+livro1_string = pdf_para_string(caminho, pular_paginas=23)
+livro2_string = pdf_para_string(caminho2, pular_paginas=9)  
 
 # Remove tudo entre 'PARTICIPANTES DA DESCRIÇÃO' e 'CÓDIGO'
 participantes = 'PARTICIPANTES DA DESCRIÇÃO'
 cod = 'CÓDIGO'
 
-livro_string = remover_entre_palavras(livro_string, participantes, cod)
+livro_string = livro1_string  + livro2_string
 
+print(f"Tamanho do texto 1: {len(livro1_string)} caracteres")
+print(f"Tamanho do texto 2: {len(livro2_string)} caracteres")
+print(f"Tamanho do texto combinado: {len(livro_string)} caracteres")
 
-# Agora 'livro_string' está sem o conteúdo entre as palavras especificadas
-#print(livro_string[:100000]) # Imprime os primeiros 100000 caracteres
-
-#print(livro_string[livro_string.find(participantes):livro_string.find(participantes) + 1000])  # Imprime os próximos 1000 caracteres após encontrar a palavra-chave
 
 #Encontra valores entre 'DESCRIÇÃO SUMÁRIA' e 'FORMAÇÃO E EXPERIÊNCIA'
 descricao_sumaria = 'DESCRIÇÃO SUMÁRIA'
@@ -103,6 +105,13 @@ titulos = buscar_todas_entre_palavras(livro_string, titulo, descricao_sumaria)
 descricoes = buscar_todas_entre_palavras(livro_string, descricao_sumaria, formacao_experiencia)
 formacoes = buscar_todas_entre_palavras(livro_string, formacao_experiencia, condicoes_gerais)
 
+'''
+print(f"\nDEBUG: Procurando '{titulo}' a '{descricao_sumaria}'")
+print(f"DEBUG: Titulos encontrados: {len(titulos)}")
+print(f"DEBUG: Descrições encontradas: {len(descricoes)}")
+print(f"DEBUG: Formações encontradas: {len(formacoes)}")
+print(f"DEBUG: Tamanho do livro_string: {len(livro_string)} caracteres\n")
+'''
 # Encontra o tamanho máximo para criar o dataframe
 max_len = max(len(titulos), len(descricoes), len(formacoes))
 
@@ -124,4 +133,5 @@ print(f"Total de títulos encontrados: {len([x for x in titulos if x])}")
 print(f"Total de descrições encontradas: {len([x for x in descricoes if x])}")
 print(f"Total de formações encontradas: {len([x for x in formacoes if x])}")
 print("="*50)
-df.to_csv('dados_extraidos.csv', index=False)
+
+df.to_csv('dados_extraidos_ambos_livros.csv', index=False)
